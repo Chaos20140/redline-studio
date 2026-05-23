@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tolgay Ulukaya — Web Design Studio. Aggressive, performance-driven Websites für Marken, die nicht übersehen werden wollen." />
+  <title>REDLINE/STUDIO — Web Design at Terminal Velocity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@300;400;700&family=Manrope:wght@300;400;500;700&family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- BACKGROUND SCROLL VIDEO (manifest → contact) -->
+  <div class="bg-scroll" id="bgScroll" aria-hidden="true">
+    <video class="bg-scroll__video" id="bgScrollVideo" muted playsinline preload="auto" disablepictureinpicture>
+      <source src="assets/video/scroll.mp4" type="video/mp4" />
+    </video>
+    <div class="bg-scroll__tint"></div>
+    <div class="bg-scroll__grid"></div>
+  </div>
+
+  <!-- NOISE + SCANLINES OVERLAY -->
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader__bar"><span></span></div>
+    <div class="loader__meta">
+      <span class="loader__label">SYSTEM BOOT — INITIALIZING</span>
+      <span class="loader__count" id="loaderCount">000</span>
+    </div>
+    <div class="loader__brand">REDLINE/STUDIO</div>
+  </div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo">
+      <span class="nav__logo-mark">R/S</span>
+      <span class="nav__logo-text">REDLINE<span>/STUDIO</span></span>
+    </a>
+    <nav class="nav__links">
+      <a href="#manifesto" data-link>00 · Manifest</a>
+      <a href="#services" data-link>01 · Services</a>
+      <a href="#process" data-link>02 · Process</a>
+      <a href="#work" data-link>03 · Work</a>
+      <a href="#contact" data-link>04 · Contact</a>
+    </nav>
+    <a href="#contact" class="nav__cta" data-magnetic>
+      <span>Launch Project</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.5"/></svg>
+    </a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <video class="hero__video" autoplay muted loop playsinline poster="">
+      <source src="assets/video/hero.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__overlay"></div>
+    <div class="hero__grid"></div>
+
+    <div class="hero__corner hero__corner--tl">
+      <span class="mono">LAT 51.0504° N</span>
+      <span class="mono">LON 13.7373° E</span>
+    </div>
+    <div class="hero__corner hero__corner--tr">
+      <span class="mono">RPM <em id="rpm">12 480</em></span>
+      <span class="mono">SPD <em id="spd">328</em> KM/H</span>
+    </div>
+    <div class="hero__corner hero__corner--bl">
+      <span class="mono">— EST. 2024</span>
+      <span class="mono">— DRESDEN / WORLDWIDE</span>
+    </div>
+    <div class="hero__corner hero__corner--br">
+      <span class="mono">SCROLL ↓</span>
+      <span class="mono">REC ●</span>
+    </div>
+
+    <div class="hero__content">
+      <span class="kicker">[ Web Design Studio — Code · Motion · Brand ]</span>
+      <h1 class="hero__title">
+        <span class="line"><span class="word" data-text="DESIGN">DESIGN</span></span>
+        <span class="line"><span class="word italic" data-text="AT">AT</span> <span class="word redline" data-text="REDLINE">REDLINE</span><span class="caret">_</span></span>
+        <span class="line small"><span class="word" data-text="VELOCITY.">VELOCITY.</span></span>
+      </h1>
+      <p class="hero__sub">
+        Wir entwerfen und entwickeln kompromisslose Websites für Marken, die nicht übersehen werden wollen. Keine Templates. Keine Komfortzone.
+        <strong>Nur Vollgas.</strong>
+      </p>
+      <div class="hero__cta">
+        <a href="#contact" class="btn btn--primary" data-magnetic>
+          <span>START THE ENGINE</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 15L15 1M15 1H4M15 1V12" stroke="currentColor" stroke-width="1.6"/></svg>
+        </a>
+        <a href="#work" class="btn btn--ghost" data-magnetic>
+          <span>SEE THE WORK</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="marquee marquee--hero">
+      <div class="marquee__track">
+        <span>WEB DESIGN</span><span class="dot">●</span>
+        <span>FRONTEND ENGINEERING</span><span class="dot">●</span>
+        <span>MOTION</span><span class="dot">●</span>
+        <span>BRAND IDENTITY</span><span class="dot">●</span>
+        <span>3D / WEBGL</span><span class="dot">●</span>
+        <span>E-COMMERCE</span><span class="dot">●</span>
+        <span>WEB DESIGN</span><span class="dot">●</span>
+        <span>FRONTEND ENGINEERING</span><span class="dot">●</span>
+        <span>MOTION</span><span class="dot">●</span>
+        <span>BRAND IDENTITY</span><span class="dot">●</span>
+        <span>3D / WEBGL</span><span class="dot">●</span>
+        <span>E-COMMERCE</span><span class="dot">●</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto" id="manifesto">
+    <div class="section-head">
+      <span class="section-num">00 / MANIFEST</span>
+      <span class="section-line"></span>
+      <span class="mono">— THE CREED</span>
+    </div>
+
+    <div class="manifesto__grid">
+      <div class="manifesto__text">
+        <h2 class="reveal-text">
+          <span>Wir bauen Websites,</span>
+          <span>die <em>einschlagen</em>.</span>
+          <span>Nicht solche, die <s>nett</s> sind.</span>
+        </h2>
+        <p class="manifesto__lead">
+          Jedes Pixel ist eine Entscheidung. Jede Animation ein Statement.
+          Wir arbeiten wie ein Boxenstopp-Team: präzise, schnell, gnadenlos. Was wir abliefern, performt — visuell, technisch, kommerziell.
+        </p>
+      </div>
+
+      <div class="manifesto__stats">
+        <div class="stat">
+          <span class="stat__num" data-count="98">0</span><span class="stat__suffix">%</span>
+          <span class="stat__label">Lighthouse Performance</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="14">0</span>
+          <span class="stat__label">Aktive Mandate</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="312">0</span><span class="stat__suffix">d</span>
+          <span class="stat__label">Avg. Lifetime / Client</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="2">0</span><span class="stat__suffix">.4s</span>
+          <span class="stat__label">First Paint Ø</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-head">
+      <span class="section-num">01 / SERVICES</span>
+      <span class="section-line"></span>
+      <span class="mono">— WHAT WE BUILD</span>
+    </div>
+
+    <h2 class="services__title">
+      Vier Disziplinen.<br/>
+      <em>Ein</em> kompromissloser Standard.
+    </h2>
+
+    <div class="services__list">
+      <article class="service" data-service>
+        <div class="service__head">
+          <span class="service__num">/ 01</span>
+          <span class="service__tag">CORE</span>
+        </div>
+        <h3 class="service__title">Web Design</h3>
+        <p class="service__desc">
+          Konzept, Art Direction, UX/UI. Wir entwerfen Interfaces, die wie ein Auspuffschlag wirken — laut, präzise, unverwechselbar.
+        </p>
+        <ul class="service__items">
+          <li>Art Direction</li>
+          <li>UX & UI</li>
+          <li>Design Systems</li>
+          <li>Prototyping</li>
+        </ul>
+        <div class="service__glow"></div>
+      </article>
+
+      <article class="service" data-service>
+        <div class="service__head">
+          <span class="service__num">/ 02</span>
+          <span class="service__tag">BUILD</span>
+        </div>
+        <h3 class="service__title">Development</h3>
+        <p class="service__desc">
+          Sauberer, performanter Frontend-Code. React, Next, WebGL, Headless CMS — wir wählen den Motor, der dein Projekt unter 2 Sekunden bringt.
+        </p>
+        <ul class="service__items">
+          <li>Next.js / Astro</li>
+          <li>Headless CMS</li>
+          <li>E-Commerce</li>
+          <li>API Integrations</li>
+        </ul>
+        <div class="service__glow"></div>
+      </article>
+
+      <article class="service" data-service>
+        <div class="service__head">
+          <span class="service__num">/ 03</span>
+          <span class="service__tag">MOTION</span>
+        </div>
+        <h3 class="service__title">Motion & 3D</h3>
+        <p class="service__desc">
+          GSAP, Three.js, WebGL Shader. Bewegung, die deine Marke nicht dekoriert, sondern <em>transportiert</em>.
+        </p>
+        <ul class="service__items">
+          <li>Scroll Storytelling</li>
+          <li>WebGL Scenes</li>
+          <li>Microinteractions</li>
+          <li>Reels & Showcases</li>
+        </ul>
+        <div class="service__glow"></div>
+      </article>
+
+      <article class="service" data-service>
+        <div class="service__head">
+          <span class="service__num">/ 04</span>
+          <span class="service__tag">BRAND</span>
+        </div>
+        <h3 class="service__title">Brand Identity</h3>
+        <p class="service__desc">
+          Logos, Tonalität, visuelles System. Wir bauen Marken, die ein Statement sind, bevor du den ersten Satz gelesen hast.
+        </p>
+        <ul class="service__items">
+          <li>Logo & Marke</li>
+          <li>Voice & Tone</li>
+          <li>Guidelines</li>
+          <li>Launch Kampagnen</li>
+        </ul>
+        <div class="service__glow"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ENGINEERING / 3D -->
+  <section class="engineering" id="engineering">
+    <div class="engineering__inner">
+      <canvas class="engineering__canvas" id="threeCanvas" aria-hidden="true"></canvas>
+
+      <div class="engineering__corner engineering__corner--tl">
+        <span class="mono">/ MODULE · TRG-009</span>
+        <span class="mono">VTX <em id="vtxCount">— —</em></span>
+      </div>
+      <div class="engineering__corner engineering__corner--tr">
+        <span class="mono">DEFORM <em id="deformMeter">0.00</em></span>
+        <span class="mono">SCRL <em id="scrollMeter">0%</em></span>
+      </div>
+
+      <div class="engineering__head">
+        <span class="section-num">/ INTERMISSION</span>
+        <span class="mono">— CARBON GEOMETRY</span>
+      </div>
+
+      <h2 class="engineering__title">
+        <span class="line"><span>Aus reinem</span></span>
+        <span class="line"><em>Karbon</em>.</span>
+        <span class="line outline">GEBAUT.</span>
+      </h2>
+
+      <p class="engineering__lead">
+        Jede Form ein Statement. Jede Kante kalkuliert. Diese Geometrie reagiert auf deinen Scroll —
+        wie ein digitaler Frontflügel im Windkanal. <em>Bewegung als Sprache.</em>
+      </p>
+
+      <div class="engineering__legend">
+        <span class="mono">↓ SCROLL TO DEFORM</span>
+        <span class="mono">↻ MOVE MOUSE TO ORBIT</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="section-head">
+      <span class="section-num">02 / PROCESS</span>
+      <span class="section-line"></span>
+      <span class="mono">— FROM START LINE TO CHECKERED FLAG</span>
+    </div>
+
+    <h2 class="process__title">
+      Vier Runden.<br/>
+      <em>Eine</em> Pole Position.
+    </h2>
+
+    <div class="process__track">
+      <div class="process__line"></div>
+
+      <div class="step" data-step>
+        <div class="step__index">
+          <span class="step__num">01</span>
+          <span class="step__pulse"></span>
+        </div>
+        <div class="step__content">
+          <span class="step__label mono">— FORMATION LAP</span>
+          <h3>Discovery</h3>
+          <p>Wir zerlegen dein Geschäftsmodell, deine Zielgruppe und deine Konkurrenz. Ohne Briefing kein Sieg.</p>
+          <span class="step__time mono">Ø 1 Woche</span>
+        </div>
+      </div>
+
+      <div class="step" data-step>
+        <div class="step__index">
+          <span class="step__num">02</span>
+          <span class="step__pulse"></span>
+        </div>
+        <div class="step__content">
+          <span class="step__label mono">— PIT BOX</span>
+          <h3>Konzept & Design</h3>
+          <p>Art Direction, Wireframes, High-Fidelity-Designs in Figma. Du bekommst Vorschläge, die dich nervös machen — auf die richtige Art.</p>
+          <span class="step__time mono">Ø 2–3 Wochen</span>
+        </div>
+      </div>
+
+      <div class="step" data-step>
+        <div class="step__index">
+          <span class="step__num">03</span>
+          <span class="step__pulse"></span>
+        </div>
+        <div class="step__content">
+          <span class="step__label mono">— FULL THROTTLE</span>
+          <h3>Development</h3>
+          <p>Code, Motion, Integration. Saubere Architektur, lückenlose Performance, jede Animation auf 60fps.</p>
+          <span class="step__time mono">Ø 2–4 Wochen</span>
+        </div>
+      </div>
+
+      <div class="step" data-step>
+        <div class="step__index">
+          <span class="step__num">04</span>
+          <span class="step__pulse"></span>
+        </div>
+        <div class="step__content">
+          <span class="step__label mono">— CHECKERED FLAG</span>
+          <h3>Launch & Support</h3>
+          <p>Go-Live, Analytics, Iteration. Wir verschwinden nicht nach dem Rennen — wir bleiben am Funkgerät.</p>
+          <span class="step__time mono">Laufend</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="section-head">
+      <span class="section-num">03 / WORK</span>
+      <span class="section-line"></span>
+      <span class="mono">— SELECTED CASES</span>
+    </div>
+
+    <h2 class="work__title">
+      Garage.<br/>
+      <em>Selected Builds.</em>
+    </h2>
+
+    <div class="work__grid">
+      <article class="case case--large" data-case>
+        <div class="case__media">
+          <div class="case__visual case__visual--01"></div>
+          <div class="case__corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="case__meta">
+          <span class="mono">/ 001</span>
+          <span class="case__year mono">2025</span>
+        </div>
+        <h3 class="case__name">APEX MOTORS</h3>
+        <p class="case__cat">Brand Site · WebGL · E-Commerce</p>
+        <span class="case__cta"><em>View Case</em> →</span>
+      </article>
+
+      <article class="case" data-case>
+        <div class="case__media">
+          <div class="case__visual case__visual--02"></div>
+          <div class="case__corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="case__meta">
+          <span class="mono">/ 002</span>
+          <span class="case__year mono">2025</span>
+        </div>
+        <h3 class="case__name">NULL/PROTOCOL</h3>
+        <p class="case__cat">SaaS Platform · Dashboard</p>
+        <span class="case__cta"><em>View Case</em> →</span>
+      </article>
+
+      <article class="case" data-case>
+        <div class="case__media">
+          <div class="case__visual case__visual--03"></div>
+          <div class="case__corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="case__meta">
+          <span class="mono">/ 003</span>
+          <span class="case__year mono">2024</span>
+        </div>
+        <h3 class="case__name">VOLTAGE/09</h3>
+        <p class="case__cat">Festival Identity · Microsite</p>
+        <span class="case__cta"><em>View Case</em> →</span>
+      </article>
+
+      <article class="case case--wide" data-case>
+        <div class="case__media">
+          <div class="case__visual case__visual--04"></div>
+          <div class="case__corners">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="case__meta">
+          <span class="mono">/ 004</span>
+          <span class="case__year mono">2024</span>
+        </div>
+        <h3 class="case__name">CARBON ATELIER</h3>
+        <p class="case__cat">Luxury Studio · Portfolio</p>
+        <span class="case__cta"><em>View Case</em> →</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- BIG MARQUEE -->
+  <section class="big-marquee">
+    <div class="marquee__track marquee__track--xl">
+      <span>READY TO LAUNCH?</span>
+      <span class="circle">●</span>
+      <span class="outline">START YOUR PROJECT</span>
+      <span class="circle">●</span>
+      <span>READY TO LAUNCH?</span>
+      <span class="circle">●</span>
+      <span class="outline">START YOUR PROJECT</span>
+      <span class="circle">●</span>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact__bg" aria-hidden="true"></div>
+
+    <div class="section-head">
+      <span class="section-num">04 / CONTACT</span>
+      <span class="section-line"></span>
+      <span class="mono">— OPEN A CHANNEL</span>
+    </div>
+
+    <div class="contact__grid">
+      <div class="contact__intro">
+        <h2 class="contact__title">
+          Lust auf eine<br/>
+          <em>schnelle</em><br/>
+          <span class="redline">Runde?</span>
+        </h2>
+        <p class="contact__lead">
+          Schreib uns. Wir antworten in der Regel innerhalb von 24 Stunden — manchmal schneller, als dein Provider laden kann.
+        </p>
+
+        <div class="contact__details">
+          <a href="mailto:tolgay.u0@gmail.com" class="contact__line" data-magnetic>
+            <span class="mono">/ MAIL</span>
+            <span>tolgay.u0@gmail.com</span>
+          </a>
+          <a href="#" class="contact__line" data-magnetic>
+            <span class="mono">/ CALL</span>
+            <span>+49 (0) — auf Anfrage</span>
+          </a>
+          <a href="#" class="contact__line" data-magnetic>
+            <span class="mono">/ STUDIO</span>
+            <span>Dresden, DE — worldwide</span>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact__form" id="contactForm" novalidate>
+        <div class="form-row">
+          <label class="field">
+            <span class="field__label mono">/ 01 NAME</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Dein vollständiger Name" />
+            <span class="field__bar"></span>
+          </label>
+          <label class="field">
+            <span class="field__label mono">/ 02 E-MAIL</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="dein@unternehmen.de" />
+            <span class="field__bar"></span>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field__label mono">/ 03 UNTERNEHMEN</span>
+          <input type="text" name="company" autocomplete="organization" placeholder="Optional — Brand / Firma" />
+          <span class="field__bar"></span>
+        </label>
+
+        <fieldset class="field field--chips">
+          <span class="field__label mono">/ 04 SERVICES</span>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" name="service" value="web-design"/><span>Web Design</span></label>
+            <label class="chip"><input type="checkbox" name="service" value="development"/><span>Development</span></label>
+            <label class="chip"><input type="checkbox" name="service" value="motion"/><span>Motion & 3D</span></label>
+            <label class="chip"><input type="checkbox" name="service" value="branding"/><span>Branding</span></label>
+            <label class="chip"><input type="checkbox" name="service" value="ecommerce"/><span>E-Commerce</span></label>
+            <label class="chip"><input type="checkbox" name="service" value="other"/><span>Andere</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field field--chips">
+          <span class="field__label mono">/ 05 BUDGET</span>
+          <div class="chips chips--radio">
+            <label class="chip"><input type="radio" name="budget" value="<5"/><span>&lt; 5K €</span></label>
+            <label class="chip"><input type="radio" name="budget" value="5-15"/><span>5–15K €</span></label>
+            <label class="chip"><input type="radio" name="budget" value="15-40"/><span>15–40K €</span></label>
+            <label class="chip"><input type="radio" name="budget" value="40+"/><span>40K+ €</span></label>
+          </div>
+        </fieldset>
+
+        <label class="field">
+          <span class="field__label mono">/ 06 BRIEFING</span>
+          <textarea name="message" rows="5" required placeholder="Erzähl uns von deinem Projekt — Ziele, Timeline, Konkurrenz, alles."></textarea>
+          <span class="field__bar"></span>
+        </label>
+
+        <label class="consent">
+          <input type="checkbox" name="consent" required />
+          <span>Ich stimme zu, dass meine Angaben gemäß <a href="impressum.html#datenschutz">Datenschutzerklärung</a> verarbeitet werden.</span>
+        </label>
+
+        <button type="submit" class="btn btn--primary btn--block" data-magnetic>
+          <span class="btn__label">LAUNCH SIGNAL</span>
+          <span class="btn__icon">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M1 15L15 1M15 1H4M15 1V12" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+        </button>
+
+        <div class="form-status" id="formStatus" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__top">
+      <h2 class="footer__giant">REDLINE/STUDIO<span class="dot">●</span></h2>
+    </div>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <span class="mono">/ STUDIO</span>
+        <p>
+          Tolgay Ulukaya<br/>
+          Independent Web Design Studio<br/>
+          Dresden, Deutschland
+        </p>
+      </div>
+      <div class="footer__col">
+        <span class="mono">/ NAV</span>
+        <a href="#manifesto">Manifest</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer__col">
+        <span class="mono">/ LEGAL</span>
+        <a href="impressum.html">Impressum</a>
+        <a href="impressum.html#datenschutz">Datenschutz</a>
+        <a href="impressum.html#agb">AGB</a>
+      </div>
+      <div class="footer__col">
+        <span class="mono">/ SOCIAL</span>
+        <a href="#">Instagram</a>
+        <a href="#">Behance</a>
+        <a href="#">Dribbble</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="mono">© 2026 REDLINE/STUDIO — ALL RIGHTS RESERVED</span>
+      <span class="mono" id="clock">— : — : —</span>
+      <a href="#top" class="footer__top-btn">BACK TO PIT LANE ↑</a>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

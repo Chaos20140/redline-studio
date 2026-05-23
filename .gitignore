@@ -1,0 +1,19 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Playwright temp output
+.playwright-mcp/
+*.jpeg
+!assets/images/*.jpeg
+
+# Node / build (falls später relevant)
+node_modules/
+dist/
+.cache/
+
+# Logs
+*.log

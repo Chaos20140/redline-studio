@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@300;400;700&family=Manrope:wght@300;400;500;700&family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260523c" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260523e" />
 </head>
 <body>
 
@@ -255,39 +255,70 @@
     </div>
   </section>
 
-  <!-- ENGINEERING / 3D -->
+  <!-- ENGINEERING / KINETIC TYPOGRAPHY + COLOR-PLAY -->
   <section class="engineering" id="engineering">
     <div class="engineering__inner">
-      <canvas class="engineering__canvas" id="threeCanvas" aria-hidden="true"></canvas>
+      <!-- Color treatments stacked over the bg-scroll video -->
+      <div class="treatment treatment--burn"   aria-hidden="true"></div>
+      <div class="treatment treatment--cool"   aria-hidden="true"></div>
+      <div class="treatment treatment--strobe" aria-hidden="true"></div>
+      <div class="treatment treatment--vignette" aria-hidden="true"></div>
 
       <div class="engineering__corner engineering__corner--tl">
-        <span class="mono">/ MODULE · TRG-009</span>
-        <span class="mono">VTX <em id="vtxCount">— —</em></span>
+        <span class="mono">/ MODULE · RG-009</span>
+        <span class="mono">SEQ <em id="seqMeter">01</em>/03</span>
       </div>
       <div class="engineering__corner engineering__corner--tr">
-        <span class="mono">DEFORM <em id="deformMeter">0.00</em></span>
+        <span class="mono">CHROMA <em id="chromaMeter">100</em>%</span>
         <span class="mono">SCRL <em id="scrollMeter">0%</em></span>
       </div>
 
       <div class="engineering__head">
         <span class="section-num">/ INTERMISSION</span>
-        <span class="mono">— CARBON GEOMETRY</span>
+        <span class="mono">— KINETIC MANIFESTO</span>
       </div>
 
-      <h2 class="engineering__title">
-        <span class="line"><span>Aus reinem</span></span>
-        <span class="line"><em>Karbon</em>.</span>
-        <span class="line outline">GEBAUT.</span>
-      </h2>
+      <div class="phases">
+        <!-- Phase 01 -->
+        <article class="phase" data-phase="1">
+          <span class="phase__num mono">/ 01 — CRAFT</span>
+          <h2 class="phase__title">
+            <span class="line"><span class="word" data-text="Aus">Aus</span> <span class="word" data-text="reinem">reinem</span></span>
+            <span class="line italic"><span class="word red" data-text="Karbon.">Karbon.</span></span>
+          </h2>
+          <p class="phase__lead">
+            Jede Form ein Statement. Jede Kante kalkuliert. <em>Bewegung als Sprache.</em>
+          </p>
+        </article>
 
-      <p class="engineering__lead">
-        Jede Form ein Statement. Jede Kante kalkuliert. Diese Geometrie reagiert auf deinen Scroll —
-        wie ein digitaler Frontflügel im Windkanal. <em>Bewegung als Sprache.</em>
-      </p>
+        <!-- Phase 02 -->
+        <article class="phase" data-phase="2">
+          <span class="phase__num mono">/ 02 — VELOCITY</span>
+          <h2 class="phase__title">
+            <span class="line"><span class="word" data-text="Gebaut">Gebaut</span> <span class="word" data-text="für">für</span></span>
+            <span class="line italic"><span class="word red" data-text="Speed.">Speed.</span></span>
+          </h2>
+          <p class="phase__lead">
+            Sub-Sekunden-Lade. 60 fps unverhandelbar. <em>Performance ist Charakter.</em>
+          </p>
+        </article>
+
+        <!-- Phase 03 -->
+        <article class="phase" data-phase="3">
+          <span class="phase__num mono">/ 03 — EDGE</span>
+          <h2 class="phase__title">
+            <span class="line"><span class="word" data-text="Kein">Kein</span></span>
+            <span class="line italic"><span class="word red" data-text="Kompromiss.">Kompromiss.</span></span>
+          </h2>
+          <p class="phase__lead">
+            Wir entwerfen, wie F1-Teams entwickeln — am Limit. <em>Immer.</em>
+          </p>
+        </article>
+      </div>
 
       <div class="engineering__legend">
-        <span class="mono">↓ SCROLL TO DEFORM</span>
-        <span class="mono">↻ MOVE MOUSE TO ORBIT</span>
+        <span class="mono">↓ SCROLL — 3 PHASEN</span>
+        <span class="mono">— THE PHILOSOPHY</span>
       </div>
     </div>
   </section>
@@ -603,8 +634,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="assets/js/main.js?v=20260523d"></script>
+  <script src="assets/js/main.js?v=20260523e"></script>
 </body>
 </html>

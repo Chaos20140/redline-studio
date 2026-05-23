@@ -716,11 +716,13 @@ input, textarea, select { font: inherit; color: inherit; }
 }
 
 /* =========================================================
-   ENGINEERING / 3D SECTION
+   ENGINEERING — KINETIC TYPOGRAPHY + COLOR-PLAY
+   3 phases pinned for 300vh, crossfading on scroll.
+   Layered color treatments tint the bg-scroll video.
    ========================================================= */
 .engineering {
   position: relative;
-  min-height: 220vh;
+  min-height: 320vh;
   background: transparent;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -734,12 +736,46 @@ input, textarea, select { font: inherit; color: inherit; }
   overflow: hidden;
   isolation: isolate;
 }
-.engineering__canvas {
+
+/* ---- color treatment layers (cover the section, blend with video) ---- */
+.treatment {
   position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  z-index: -1;
-  display: block;
+  pointer-events: none;
+  z-index: 0;
+  will-change: opacity, transform, filter;
 }
+.treatment--burn {
+  background: radial-gradient(ellipse 80% 60% at 50% 60%,
+                              rgba(var(--red-glow), 0.65) 0%,
+                              rgba(var(--red-glow), 0.25) 40%,
+                              transparent 75%);
+  mix-blend-mode: overlay;
+  opacity: 0.9;
+}
+.treatment--cool {
+  background:
+    linear-gradient(135deg, rgba(8, 12, 24, 0.55) 0%, rgba(0, 0, 0, 0.0) 50%, rgba(60, 6, 14, 0.5) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+}
+.treatment--strobe {
+  background:
+    repeating-linear-gradient(180deg,
+      transparent 0,
+      transparent 6px,
+      rgba(255, 31, 61, 0.18) 6px,
+      rgba(255, 31, 61, 0.18) 7px);
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.treatment--vignette {
+  background:
+    radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.8) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+}
+
+/* ---- HUD corners ---- */
 .engineering__corner {
   position: absolute;
   display: flex; flex-direction: column; gap: 4px;
@@ -759,43 +795,106 @@ input, textarea, select { font: inherit; color: inherit; }
   color: var(--ink-dim);
   text-transform: uppercase; letter-spacing: 0.18em;
   z-index: 2;
+  position: relative;
 }
 
-.engineering__title {
+/* ---- phases container — stacked, only one visible ---- */
+.phases {
+  position: relative;
+  align-self: center;
+  width: 100%;
+  z-index: 2;
+}
+.phase {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column;
+  gap: 18px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(60px) scale(0.96);
+  transition: opacity 0.5s var(--ease-out),
+              transform 0.6s var(--ease-out),
+              visibility 0s 0.5s linear;
+}
+.phase.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.6s var(--ease-out),
+              transform 0.7s var(--ease-out),
+              visibility 0s linear;
+}
+/* phase 1 stays in the flow to set the phases container height */
+.phase[data-phase="1"] { position: relative; }
+
+.phase__num {
+  color: var(--red);
+  text-shadow: 0 0 14px rgba(var(--red-glow), 0.6);
+}
+
+.phase__title {
   font-family: var(--font-display);
   font-size: clamp(54px, 12vw, 180px);
-  line-height: 0.88;
+  line-height: 0.86;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   font-weight: 400;
-  align-self: center;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
-  z-index: 2;
+  text-shadow: 0 6px 40px rgba(0, 0, 0, 0.75);
 }
-.engineering__title .line { display: block; overflow: visible; }
-.engineering__title em {
+.phase__title .line {
+  display: block;
+  overflow: hidden;
+  padding: 0.18em 0 0.1em;  /* room for diacritics (Ü, Ö) + descenders */
+}
+.phase__title .italic {
   font-family: var(--font-display-2);
   font-style: italic;
+}
+.phase__title .word {
+  display: inline-block;
+  vertical-align: bottom;
+}
+.phase__title .word.red {
   color: var(--red);
-  text-shadow: 0 0 40px rgba(var(--red-glow), 0.7);
+  text-shadow: 0 0 44px rgba(var(--red-glow), 0.7),
+               0 6px 40px rgba(0, 0, 0, 0.7);
 }
-.engineering__title .outline {
-  -webkit-text-stroke: 1.5px var(--ink);
-  color: transparent;
-  font-family: var(--font-display-2);
-  font-style: italic;
+/* per-char span used by JS for stagger */
+.phase__title .char {
+  display: inline-block;
+  transform: translateY(110%);
+  will-change: transform;
+}
+.phase.is-active .phase__title .char {
+  animation: charRise 0.9s var(--ease-power) forwards;
+}
+.phase.is-active .phase__title .line:nth-child(2) .char {
+  animation-delay: calc(var(--i, 0) * 28ms + 120ms);
+}
+.phase.is-active .phase__title .line:nth-child(1) .char {
+  animation-delay: calc(var(--i, 0) * 28ms);
+}
+@keyframes charRise {
+  0%   { transform: translateY(110%) rotate(8deg); }
+  60%  { transform: translateY(-4%) rotate(0deg); }
+  100% { transform: translateY(0) rotate(0); }
 }
 
-.engineering__lead {
-  max-width: 540px;
+.phase__lead {
+  max-width: 580px;
   color: var(--ink-dim);
-  font-size: clamp(15px, 1.2vw, 18px);
+  font-size: clamp(15px, 1.25vw, 19px);
   line-height: 1.6;
-  margin-top: 24px;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
-  z-index: 2;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
 }
-.engineering__lead em { color: var(--red); font-style: italic; }
+.phase__lead em {
+  color: var(--red);
+  font-style: italic;
+  font-family: var(--font-display-2);
+  font-size: 1.05em;
+  letter-spacing: 0.005em;
+}
 
 .engineering__legend {
   display: flex; gap: 32px; flex-wrap: wrap;
@@ -805,12 +904,13 @@ input, textarea, select { font: inherit; color: inherit; }
   border-top: 1px solid var(--line);
   padding-top: 18px;
   z-index: 2;
+  position: relative;
 }
 .engineering__legend .mono { color: var(--ink); }
 
 @media (max-width: 900px) {
-  .engineering { min-height: 180vh; }
-  .engineering__title { font-size: clamp(40px, 14vw, 100px); }
+  .engineering { min-height: 280vh; }
+  .phase__title { font-size: clamp(40px, 14vw, 100px); }
 }
 
 /* =========================================================

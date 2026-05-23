@@ -490,243 +490,103 @@
   })();
 
   /* =========================================================
-     THREE.JS — CARBON GEOMETRY
-     Single icosahedron with custom displacement shader.
-     Wireframe overlay + particle ring. Scroll deforms it.
+     ENGINEERING — KINETIC TYPOGRAPHY + COLOR-PLAY
+     3 phases pinned, scrub-driven crossfade between them.
+     Color treatment layers on bg-scroll video shift with scroll.
      ========================================================= */
   (() => {
-    if (!window.THREE) return;
-    const canvas = $("#threeCanvas");
     const section = $(".engineering");
-    if (!canvas || !section) return;
+    if (!section) return;
+    const phases = $$(".phase", section);
+    if (!phases.length) return;
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas, antialias: true, alpha: true, powerPreference: "high-performance",
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Split each word into character spans so we can stagger-animate them
+    const splitChars = () => {
+      $$(".word[data-text]", section).forEach((w) => {
+        const text = w.dataset.text || w.textContent;
+        w.innerHTML = "";
+        [...text].forEach((c, i) => {
+          const s = document.createElement("span");
+          s.className = "char";
+          s.textContent = c === " " ? " " : c;
+          s.style.setProperty("--i", i);
+          // Reset animation-delay so it picks up the per-char CSS variable
+          s.style.animationDelay = "calc(var(--i) * 28ms)";
+          w.appendChild(s);
+        });
+      });
+    };
+    splitChars();
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0, 5.2);
+    const seqMeter    = $("#seqMeter");
+    const chromaMeter = $("#chromaMeter");
+    const scrollMeter = $("#scrollMeter");
+    const burn   = $(".treatment--burn",   section);
+    const cool   = $(".treatment--cool",   section);
+    const strobe = $(".treatment--strobe", section);
 
-    /* ---- shape: icosahedron with displacement shader ---- */
-    const geo = new THREE.IcosahedronGeometry(1.35, 32);
-
-    // Shader: simplex-noise vertex displacement + fresnel rim
-    const uniforms = {
-      uTime:     { value: 0 },
-      uDeform:   { value: 0.0 },
-      uScroll:   { value: 0.0 },
-      uColorA:   { value: new THREE.Color(0xff1f3d) },
-      uColorB:   { value: new THREE.Color(0xff5a78) },
-      uColorC:   { value: new THREE.Color(0x100204) },
+    // Drive everything through one progress value (0..1) across the section
+    const setPhase = (idx) => {
+      phases.forEach((p, i) => p.classList.toggle("is-active", i === idx));
+      if (seqMeter) seqMeter.textContent = String(idx + 1).padStart(2, "0");
     };
 
-    const vertexShader = `
-      uniform float uTime;
-      uniform float uDeform;
-      uniform float uScroll;
-      varying vec3 vNormal;
-      varying vec3 vPos;
-      varying float vDisplace;
+    let currentPhase = -1;
 
-      // ----- 3D Simplex Noise (Ashima) -----
-      vec3 mod289(vec3 x){ return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec4 mod289(vec4 x){ return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }
-      vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
-
-      float snoise(vec3 v){
-        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
-        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-        vec3 i  = floor(v + dot(v, C.yyy));
-        vec3 x0 = v - i + dot(i, C.xxx);
-        vec3 g = step(x0.yzx, x0.xyz);
-        vec3 l = 1.0 - g;
-        vec3 i1 = min(g.xyz, l.zxy);
-        vec3 i2 = max(g.xyz, l.zxy);
-        vec3 x1 = x0 - i1 + C.xxx;
-        vec3 x2 = x0 - i2 + C.yyy;
-        vec3 x3 = x0 - D.yyy;
-        i = mod289(i);
-        vec4 p = permute( permute( permute(
-                  i.z + vec4(0.0, i1.z, i2.z, 1.0))
-                + i.y + vec4(0.0, i1.y, i2.y, 1.0))
-                + i.x + vec4(0.0, i1.x, i2.x, 1.0));
-        float n_ = 0.142857142857;
-        vec3  ns = n_ * D.wyz - D.xzx;
-        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-        vec4 x_ = floor(j * ns.z);
-        vec4 y_ = floor(j - 7.0 * x_);
-        vec4 x = x_ *ns.x + ns.yyyy;
-        vec4 y = y_ *ns.x + ns.yyyy;
-        vec4 h = 1.0 - abs(x) - abs(y);
-        vec4 b0 = vec4( x.xy, y.xy );
-        vec4 b1 = vec4( x.zw, y.zw );
-        vec4 s0 = floor(b0)*2.0 + 1.0;
-        vec4 s1 = floor(b1)*2.0 + 1.0;
-        vec4 sh = -step(h, vec4(0.0));
-        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
-        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
-        vec3 p0 = vec3(a0.xy, h.x);
-        vec3 p1 = vec3(a0.zw, h.y);
-        vec3 p2 = vec3(a1.xy, h.z);
-        vec3 p3 = vec3(a1.zw, h.w);
-        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
-        p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
-        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-        m = m * m;
-        return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
-      }
-
-      void main(){
-        vNormal = normalize(normalMatrix * normal);
-        float t = uTime * 0.35;
-        float n1 = snoise(position * 1.2 + vec3(t * 0.6));
-        float n2 = snoise(position * 2.6 + vec3(-t * 0.9, t * 0.5, t * 0.4));
-        float displace = (n1 * 0.55 + n2 * 0.25) * (0.18 + uDeform * 0.55);
-        vec3 newPos = position + normal * displace;
-        vDisplace = displace;
-        vPos = newPos;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
-      }
-    `;
-
-    const fragmentShader = `
-      uniform vec3 uColorA;
-      uniform vec3 uColorB;
-      uniform vec3 uColorC;
-      uniform float uTime;
-      varying vec3 vNormal;
-      varying vec3 vPos;
-      varying float vDisplace;
-
-      void main(){
-        vec3 viewDir = normalize(cameraPosition - vPos);
-        float fres = pow(1.0 - max(dot(vNormal, viewDir), 0.0), 2.5);
-        float pulse = 0.55 + 0.45 * sin(uTime * 1.4 + vDisplace * 10.0);
-        vec3 base = mix(uColorC, uColorA, fres);
-        base = mix(base, uColorB, fres * pulse * 0.7);
-        // Scanline tint
-        float scan = sin(gl_FragCoord.y * 1.6 + uTime * 4.0) * 0.04;
-        base += scan;
-        gl_FragColor = vec4(base, 1.0);
-      }
-    `;
-
-    const mat = new THREE.ShaderMaterial({
-      vertexShader, fragmentShader, uniforms, transparent: false,
-    });
-
-    const mesh = new THREE.Mesh(geo, mat);
-    scene.add(mesh);
-
-    // Wireframe overlay
-    const wireGeo = new THREE.IcosahedronGeometry(1.36, 4);
-    const wireMat = new THREE.LineBasicMaterial({
-      color: 0xff3a55, transparent: true, opacity: 0.55,
-    });
-    const wireframe = new THREE.LineSegments(
-      new THREE.WireframeGeometry(wireGeo), wireMat
-    );
-    scene.add(wireframe);
-
-    // Particle ring
-    const particleCount = 1400;
-    const pPositions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-      const r = 2.4 + Math.random() * 2.6;
-      const theta = Math.random() * Math.PI * 2;
-      const phi   = Math.acos(2 * Math.random() - 1);
-      pPositions[i*3]   = r * Math.sin(phi) * Math.cos(theta);
-      pPositions[i*3+1] = r * Math.sin(phi) * Math.sin(theta) * 0.4;
-      pPositions[i*3+2] = r * Math.cos(phi);
-    }
-    const pGeo = new THREE.BufferGeometry();
-    pGeo.setAttribute("position", new THREE.BufferAttribute(pPositions, 3));
-    const pMat = new THREE.PointsMaterial({
-      color: 0xff3a55, size: 0.018, transparent: true, opacity: 0.85,
-      blending: THREE.AdditiveBlending, depthWrite: false,
-    });
-    const particles = new THREE.Points(pGeo, pMat);
-    scene.add(particles);
-
-    /* ---- responsive sizing ---- */
-    const resize = () => {
-      const w = canvas.clientWidth || section.clientWidth;
-      const h = canvas.clientHeight || window.innerHeight;
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    /* ---- visibility-gated render loop ---- */
-    let visible = false;
-    const visIO = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { visible = e.isIntersecting; });
-    }, { threshold: 0.05 });
-    visIO.observe(section);
-
-    /* ---- scroll progress for THIS section ---- */
-    const sectionProgress = () => {
+    const onScroll = () => {
       const r = section.getBoundingClientRect();
       const total = r.height - window.innerHeight;
-      return clamp(-r.top / Math.max(1, total), 0, 1);
-    };
+      const prog = clamp(-r.top / Math.max(1, total), 0, 1);
 
-    /* ---- meters in corners ---- */
-    const vtx = $("#vtxCount");
-    const dfm = $("#deformMeter");
-    const scl = $("#scrollMeter");
-    if (vtx) vtx.textContent = geo.attributes.position.count.toLocaleString("en-US").replace(",", " ");
-
-    /* ---- mouse parallax ---- */
-    let mouseX = 0, mouseY = 0, targetMX = 0, targetMY = 0;
-    window.addEventListener("mousemove", (e) => {
-      targetMX = (e.clientX / window.innerWidth - 0.5) * 2;
-      targetMY = (e.clientY / window.innerHeight - 0.5) * 2;
-    });
-
-    let last = performance.now();
-    const render = (now) => {
-      const dt = (now - last) / 1000; last = now;
-      if (visible) {
-        const prog = sectionProgress();
-        uniforms.uTime.value += dt * (reduce ? 0.0 : 1.0);
-        uniforms.uDeform.value = lerp(uniforms.uDeform.value, prog, 0.08);
-        uniforms.uScroll.value = prog;
-
-        mouseX = lerp(mouseX, targetMX, 0.06);
-        mouseY = lerp(mouseY, targetMY, 0.06);
-
-        mesh.rotation.y       += dt * 0.18;
-        mesh.rotation.x        = mouseY * 0.3 + prog * 0.6;
-        wireframe.rotation.y   = mesh.rotation.y * 1.05;
-        wireframe.rotation.x   = mesh.rotation.x * 1.05;
-
-        particles.rotation.y  += dt * 0.04;
-        particles.rotation.x  = mouseY * 0.15;
-
-        const scale = 1.0 + prog * 0.35 + Math.sin(uniforms.uTime.value * 0.8) * 0.02;
-        mesh.scale.setScalar(scale);
-        wireframe.scale.setScalar(scale * 1.005);
-
-        camera.position.x = lerp(camera.position.x, mouseX * 0.4, 0.06);
-        camera.position.y = lerp(camera.position.y, -mouseY * 0.25, 0.06);
-        camera.lookAt(0, 0, 0);
-
-        if (dfm) dfm.textContent = uniforms.uDeform.value.toFixed(2);
-        if (scl) scl.textContent = Math.round(prog * 100) + "%";
-
-        renderer.render(scene, camera);
+      // Phase derivation — 3 even buckets
+      const idx = Math.min(2, Math.floor(prog * 3));
+      if (idx !== currentPhase) {
+        currentPhase = idx;
+        setPhase(idx);
       }
-      requestAnimationFrame(render);
+
+      // Color-treatment crossfade tied to local progress
+      // Phase 1 (0..0.33): BURN strong, COOL/STROBE off
+      // Phase 2 (0.33..0.66): BURN fades, COOL on
+      // Phase 3 (0.66..1.0): STROBE bursts, COOL stays
+      const pp1 = clamp(1 - prog * 2.2,        0, 1);  // burn dominance
+      const pp2 = clamp((prog - 0.25) * 2.4,   0, 1);  // cool slide
+      const pp3 = clamp((prog - 0.6)  * 2.8,   0, 1);  // strobe + chroma
+
+      if (burn)   burn.style.opacity   = (0.35 + pp1 * 0.55).toFixed(3);
+      if (cool)   cool.style.opacity   = (pp2 * 0.85).toFixed(3);
+      if (strobe) strobe.style.opacity = (pp3 * 0.6).toFixed(3);
+
+      // Hue rotation on the bg-scroll video for a chromatic sweep
+      const wrap = $("#bgScroll");
+      if (wrap) {
+        const hue = -10 + prog * 35;          // -10° at start → +25° at end
+        const sat = 1.25 + pp3 * 0.6;
+        wrap.style.filter = `hue-rotate(${hue.toFixed(2)}deg) saturate(${sat.toFixed(2)})`;
+      }
+
+      if (chromaMeter) chromaMeter.textContent = Math.round(80 + pp3 * 40);
+      if (scrollMeter) scrollMeter.textContent = Math.round(prog * 100) + "%";
     };
-    requestAnimationFrame(render);
+
+    // Set initial phase
+    setPhase(0);
+    onScroll();
+
+    // Use the unified scroll source — Lenis if present, else window
+    if (window.lenisInstance) {
+      window.lenisInstance.on("scroll", onScroll);
+    } else {
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+    window.addEventListener("resize", onScroll);
   })();
 
+  /* ---- THREE.JS block removed in v3 ----
+     The icosahedron + displacement shader was replaced with kinetic
+     typography phases + video color-treatments (above). Three.js CDN
+     tag was also removed from index.html.
+     -------------------------------------------------------------- */
   /* =========================================================
      GSAP REVEAL ANIMATIONS
      ========================================================= */
@@ -750,9 +610,10 @@
       y: 60, opacity: 0, duration: 1, ease: "power3.out",
       scrollTrigger: { trigger: ".services", start: "top 75%" },
     });
-    gsap.from(".engineering__title .line", {
-      y: 100, opacity: 0, duration: 1.1, stagger: 0.12, ease: "power3.out",
-      scrollTrigger: { trigger: ".engineering", start: "top 60%" },
+    // Engineering enter animation — fade up the kicker + lead
+    gsap.from(".engineering__head", {
+      y: 30, opacity: 0, duration: 0.9, ease: "power3.out",
+      scrollTrigger: { trigger: ".engineering", start: "top 70%" },
     });
     gsap.from(".process__title", {
       y: 60, opacity: 0, duration: 1, ease: "power3.out",

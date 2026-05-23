@@ -133,6 +133,9 @@ Nav-Nummerierung passt sich an: `00 · Manifest · 01 · Services · …`. Wer e
 - ❌ **CSS-Variablen umbenennen** — `--red`, `--bg`, `--ink` sind System-Tokens.
 - ❌ **„Cleanup"-Kommentare** im Code — der Code soll selbsterklärend sein.
 - ❌ **Generic Fonts laden** — Inter, Roboto, System-UI sind verboten.
+- ❌ **`body { background: solid-color }`** — das verdeckt das Scroll-Video. `body` MUSS `background: transparent`. Solide Fallback-Farbe gehört auf `html`.
+- ❌ **`overflow-x: hidden` auf `html`** — killt `position: sticky` (Engineering-Section). Stattdessen `overflow-x: clip` auf `body`.
+- ❌ **`python -m http.server`** zum Testen — kein Range-Request-Support → Video nicht scrubbar. Immer `npx http-server` o.ä.
 
 ## 8. Code-Hygiene — Was ich tun MUSS
 

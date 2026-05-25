@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team — APEX/THRUST MEDIA</title>
+  <meta name="description" content="Das Team hinter Apex Thrust Media — Designer, Engineer, Motion Director aus Dresden." />
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+  <link rel="alternate icon" type="image/svg+xml" href="assets/images/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@300;400;700&family=Manrope:wght@300;400;500;700&family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260526c" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <header class="nav is-scrolled" id="nav">
+    <a href="index.html" class="nav__logo" aria-label="APEX/THRUST MEDIA — Startseite">
+      <span class="nav__logo-mark" aria-hidden="true">
+        <img src="assets/images/logo.png" alt="" onerror="this.onerror=null;this.src='assets/images/logo.svg'" />
+      </span>
+      <span class="nav__logo-text">APEX<span>/THRUST MEDIA</span></span>
+    </a>
+    <nav class="nav__links">
+      <a href="about.html"     data-link>Über Uns</a>
+      <a href="team.html"      data-link class="is-active">Team</a>
+      <a href="partner.html"   data-link>Partner</a>
+      <a href="index.html#services"      data-link>Services</a>
+      <a href="index.html#engineering"   data-link>Engineering</a>
+      <a href="index.html#process"       data-link>Process</a>
+      <a href="kontakt.html"   data-link>Kontakt</a>
+      <span class="nav__sep" aria-hidden="true">/</span>
+      <a href="impressum.html" data-link class="nav__sub">Impressum</a>
+    </nav>
+    <a href="kontakt.html" class="nav__cta" data-magnetic>
+      <span>Launch Project</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.5"/></svg>
+    </a>
+    <button class="nav__burger" id="navBurger" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="mobile-nav__brand" aria-hidden="true">
+      <img src="assets/images/logo.png" alt="" onerror="this.onerror=null;this.src='assets/images/logo.svg'" />
+    </div>
+    <nav class="mobile-nav__links">
+      <a href="about.html"     data-mobile-link><em>Über Uns</em></a>
+      <a href="team.html"      data-mobile-link><em>Team</em></a>
+      <a href="partner.html"   data-mobile-link><em>Partner</em></a>
+      <a href="index.html#services"    data-mobile-link><em>Services</em></a>
+      <a href="index.html#engineering" data-mobile-link><em>Engineering</em></a>
+      <a href="index.html#process"     data-mobile-link><em>Process</em></a>
+      <a href="kontakt.html"   data-mobile-link><em>Kontakt</em></a>
+      <a href="impressum.html" data-mobile-link class="mobile-nav__sub"><em>Impressum</em></a>
+    </nav>
+    <div class="mobile-nav__foot">
+      <span class="mono">DRESDEN · DE</span>
+      <a href="mailto:tolgay.u0@gmail.com" class="mono">tolgay.u0@gmail.com</a>
+    </div>
+  </div>
+
+  <main class="page">
+    <header class="page-hero">
+      <span class="page-hero__kicker">/ 02 — CREW</span>
+      <h1 class="page-hero__title">Das <em>Team.</em></h1>
+      <p class="page-hero__lead">
+        Apex Thrust Media ist klein, scharf und schnell. Kein Großraumbüro mit Mittelmaß —
+        sondern ein <em>Boxenstopp-Team</em>, das genau weiß, wer wofür Verantwortung trägt.
+      </p>
+    </header>
+
+    <section class="page-section">
+      <div class="page-section__head">
+        <span class="num">/ ROSTER</span>
+        <span>Active Members · 01</span>
+        <span class="line"></span>
+      </div>
+      <div class="team-grid">
+        <article class="team-card">
+          <span class="team-card__role">Founder · Design Director</span>
+          <h3 class="team-card__name">Tolgay Ulukaya</h3>
+          <p class="team-card__bio">
+            Gründer und kreativer Kopf hinter Apex Thrust Media. Verantwortlich für
+            Art Direction, Frontend-Engineering und die Kunden-Strategie. Setzt jedes
+            Projekt auf Pole Position.
+          </p>
+          <div class="team-card__skills">
+            <span>Art Direction</span>
+            <span>UX / UI</span>
+            <span>Frontend</span>
+            <span>Motion</span>
+            <span>Brand</span>
+          </div>
+        </article>
+
+        <article class="team-card team-card--open">
+          <span class="team-card__role">— Open Role —</span>
+          <h3 class="team-card__name">Frontend Engineer</h3>
+          <p class="team-card__bio">
+            Wir suchen einen Frontend-Engineer, der React, Next.js und WebGL atmet.
+            Remote oder Dresden. Schreib uns.
+          </p>
+          <div class="team-card__skills">
+            <span>React / Next</span>
+            <span>WebGL</span>
+            <span>Tailwind</span>
+          </div>
+        </article>
+
+        <article class="team-card team-card--open">
+          <span class="team-card__role">— Open Role —</span>
+          <h3 class="team-card__name">Motion Designer</h3>
+          <p class="team-card__bio">
+            GSAP, Three.js, After Effects, Cinema 4D. Wenn Bewegung deine Muttersprache ist,
+            ist das deine Pole Position.
+          </p>
+          <div class="team-card__skills">
+            <span>GSAP</span>
+            <span>Three.js</span>
+            <span>AE / C4D</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="page-section__head">
+        <span class="num">/ CULTURE</span>
+        <span>How we run</span>
+        <span class="line"></span>
+      </div>
+      <div class="page-grid">
+        <dl class="page-grid__meta">
+          <dt>Setup</dt>
+          <dd>Remote-first</dd>
+          <dt>Stack</dt>
+          <dd>Figma · VSCode · Linear · GitHub</dd>
+          <dt>Cadence</dt>
+          <dd>Daily Standup · Wöchentliche Review</dd>
+          <dt>Ethos</dt>
+          <dd>Ownership statt Hierarchie</dd>
+        </dl>
+        <div>
+          <h2>Klein. <em>Aber laut.</em></h2>
+          <p>
+            Wir sind absichtlich klein. Keine Account-Manager, keine Project-Manager,
+            kein PowerPoint-Stack. Wenn du mit uns sprichst, sprichst du mit der Person,
+            die deine Website auch baut.
+          </p>
+          <p>
+            Wir nehmen <strong>maximal vier aktive Projekte</strong> gleichzeitig an.
+            Wir glauben, dass Qualität eine Frage von Aufmerksamkeit ist —
+            nicht von Mannstärke.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__top">
+      <h2 class="footer__giant">APEX/THRUST MEDIA<span class="dot">●</span></h2>
+    </div>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <span class="mono">/ STUDIO</span>
+        <p>Tolgay Ulukaya<br/>Independent Web Design Studio<br/>Dresden, Deutschland</p>
+      </div>
+      <div class="footer__col">
+        <span class="mono">/ NAV</span>
+        <a href="about.html">Über Uns</a>
+        <a href="team.html">Team</a>
+        <a href="partner.html">Partner</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#process">Process</a>
+        <a href="kontakt.html">Kontakt</a>
+      </div>
+      <div class="footer__col">
+        <span class="mono">/ LEGAL</span>
+        <a href="impressum.html">Impressum</a>
+        <a href="impressum.html#datenschutz">Datenschutz</a>
+        <a href="impressum.html#agb">AGB</a>
+      </div>
+      <div class="footer__col">
+        <span class="mono">/ SOCIAL</span>
+        <a href="#">Instagram</a>
+        <a href="#">Behance</a>
+        <a href="#">Dribbble</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="mono">© 2026 APEX/THRUST MEDIA — ALL RIGHTS RESERVED</span>
+      <span class="mono" id="clock">— : — : —</span>
+      <a href="index.html#top" class="footer__top-btn">BACK TO PIT LANE ↑</a>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="assets/js/main.js?v=20260526c"></script>
+</body>
+</html>

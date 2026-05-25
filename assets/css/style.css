@@ -264,14 +264,17 @@ input, textarea, select { font: inherit; color: inherit; }
   text-transform: uppercase;
 }
 .nav__logo-mark {
-  --logo-accent: var(--red);
   display: inline-flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px;
-  color: var(--ink);
+  width: 44px; height: 44px;
   transition: transform 0.4s var(--ease-out), filter 0.3s;
-  filter: drop-shadow(0 0 14px rgba(var(--red-glow), 0.45)) invert(1);
-  /* The user's helmet PNG is black-on-white. invert(1) on a dark site
-     flips it to white-on-transparent. The drop-shadow stays red. */
+  /* The user's logo PNG is BLACK on TRANSPARENT.
+     invert(1) flips the black pixels to white (alpha is preserved),
+     giving us a clean white logo on the dark site without touching
+     the original artwork. Red drop-shadow stays as on-brand glow. */
+  filter:
+    invert(1)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.15));
 }
 .nav__logo-mark img,
 .nav__logo-mark svg {
@@ -281,7 +284,10 @@ input, textarea, select { font: inherit; color: inherit; }
 }
 .nav__logo:hover .nav__logo-mark {
   transform: translateX(2px) rotate(-3deg);
-  filter: drop-shadow(0 0 22px rgba(var(--red-glow), 0.85)) invert(1);
+  filter:
+    invert(1)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 22px rgba(255, 255, 255, 0.3));
 }
 .nav__logo-text span { color: var(--red); }
 .nav__links {

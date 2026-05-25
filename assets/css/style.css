@@ -504,10 +504,12 @@ body.nav-open { overflow: hidden; }
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh; /* iOS Safari: account for browser chrome */
   display: grid;
   grid-template-rows: 1fr auto;
   overflow: hidden;
   isolation: isolate;
+  padding-top: 80px;  /* reserve clear space for the fixed nav */
 }
 .hero__video {
   position: absolute; inset: 0;
@@ -567,8 +569,8 @@ body.nav-open { overflow: hidden; }
 }
 .hero__title {
   font-family: var(--font-display);
-  font-size: clamp(64px, 14vw, 240px);
-  line-height: 0.85;
+  font-size: clamp(56px, 11.5vw, 188px);
+  line-height: 0.88;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   font-weight: 400;

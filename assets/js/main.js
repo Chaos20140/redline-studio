@@ -331,7 +331,7 @@
     const endEl   = $(".contact") || $("#contact");
     if (!startEl || !endEl) return;
 
-    const FRAME_TARGET = reduce ? 12 : 90;       // ~9 fps over a 10s clip
+    const FRAME_TARGET = reduce ? 12 : 140;      // denser sampling → less stutter
     const MAX_W = Math.min(window.innerWidth * 2, 1920);
     const MAX_H = Math.min(window.innerHeight * 2, 1080);
 
@@ -371,25 +371,40 @@
       return clamp((scrollMid - sTop) / (eBottom - sTop), 0, 1);
     };
 
-    /* ---- draw a given progress to the visible canvas ---- */
+    /* ---- draw a given progress to the visible canvas, with frame
+            blending: render frame N, then composite frame N+1 with
+            alpha = sub-frame fraction. Gives sub-frame smoothness
+            without needing more source frames. ---- */
     const drawAt = (prog) => {
       if (!framesReady || frames.length === 0) return;
-      const idx = clamp(Math.round(prog * (frames.length - 1)), 0, frames.length - 1);
-      const bmp = frames[idx]?.bmp;
-      if (!bmp) return;
-      // cover-fit
       const cw = canvas.width, ch = canvas.height;
-      const bw = bmp.width,    bh = bmp.height;
-      const scale = Math.max(cw / bw, ch / bh);
-      const dw = bw * scale, dh = bh * scale;
-      const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
-      ctx.drawImage(bmp, dx, dy, dw, dh);
+
+      const exact = prog * (frames.length - 1);
+      const i0 = Math.floor(exact);
+      const i1 = Math.min(i0 + 1, frames.length - 1);
+      const t  = exact - i0;     // 0..1 between the two frames
+
+      const drawBitmap = (bmp, alpha) => {
+        const bw = bmp.width, bh = bmp.height;
+        const scale = Math.max(cw / bw, ch / bh);
+        const dw = bw * scale, dh = bh * scale;
+        const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(bmp, dx, dy, dw, dh);
+      };
+
+      const a = frames[i0]?.bmp;
+      const b = frames[i1]?.bmp;
+      if (a) drawBitmap(a, 1.0);
+      if (b && i1 !== i0 && t > 0.001) drawBitmap(b, t);
+      ctx.globalAlpha = 1.0;
     };
 
     /* ---- main render loop (smoothed) ---- */
     const tick = () => {
       targetProg = computeProg();
-      smoothedProg = lerp(smoothedProg, targetProg, 0.14);
+      // gentler lerp → glides between frames instead of jumping
+      smoothedProg = lerp(smoothedProg, targetProg, 0.09);
 
       const wantActive = targetProg > 0 && targetProg < 1;
       if (wantActive && !active) { wrap.classList.add("is-active"); active = true; }
